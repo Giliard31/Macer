@@ -1,7 +1,7 @@
-const CACHE_NAME = 'marcenaria-v4';
+const CACHE_NAME = 'marcenaria-cache-v1';
 const ASSETS = [
   './',
-  './index.html',
+  './002.html',
   './manifest.json'
 ];
 
