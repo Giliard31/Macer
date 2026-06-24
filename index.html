@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marcenaria Pro - Celular Seguro</title>
-    <link rel="manifest" href="manifest.json">
+    
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Marcenaria">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -21,9 +23,6 @@
             --item-color: #8e44ad;
             --draw-color: #3498db;
             --whatsapp-color: #25D366;
-            --history-color: #16a085;
-            --view-color: #2980b9;
-            --catalog-color: #27ae60;
         }
 
         /* BANNER DE INSTALAÇÃO DO APP */
@@ -79,43 +78,19 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding: 0 15px 15px 15px;
-        }
-
-        .header-sticky-container {
-            position: sticky;
-            top: 0;
-            background-color: var(--bg-color);
-            z-index: 1000;
-            padding-top: 15px;
-            padding-bottom: 10px;
+            padding: 15px;
         }
 
         header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 3px solid var(--accent-color);
-            background-color: var(--bg-color);
-        }
-
-        .menu-hamburger {
-            position: absolute;
-            left: 5px;
-            top: 50%;
-            transform: translateY(-65%);
-            font-size: 1.6rem;
-            color: var(--primary-color);
-            cursor: pointer;
-            padding: 5px;
         }
 
         header h1 {
             color: var(--primary-color);
-            font-size: 1.4rem;
+            font-size: 1.5rem;
         }
 
         header h1 i {
@@ -124,21 +99,21 @@
         }
 
         .tabs-nav {
-            display: flex;
-            gap: 6px;
-            background-color: var(--bg-color);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 5px;
+            margin-bottom: 20px;
         }
 
         .tab-btn {
-            flex: 1;
-            padding: 10px 4px;
+            padding: 10px 2px;
             background: #dcdde1;
             color: var(--primary-color);
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -151,108 +126,205 @@
             color: white;
         }
 
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -280px;
-            width: 280px;
-            height: 100%;
-            background-color: var(--primary-color);
-            z-index: 2000;
-            transition: left 0.3s ease;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.3);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .tab-content {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .sidebar.open { left: 0; }
+        .tab-content.active {
+            display: block;
+        }
 
-        .sidebar-header {
+        .panel {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .panel.panel-item { border-top: 4px solid var(--item-color); }
+        .panel.panel-draw { border-top: 4px solid var(--draw-color); }
+
+        .panel h2 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .panel.panel-item h2 { color: var(--item-color); }
+        .panel.panel-draw h2 { color: var(--draw-color); }
+
+        .toggle-btn {
+            background-color: var(--card-bg);
+            color: var(--item-color);
+            padding: 15px 20px;
+            border: none;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: white;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 15px;
-            margin-bottom: 10px;
         }
 
-        .btn-close-sidebar {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.4rem;
-            cursor: pointer;
+        .toggle-btn:hover { background-color: #f9f9f9; }
+        
+        .toggle-content {
+            display: none;
+            padding: 20px;
         }
-
-        .sidebar-nav-btn {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .sidebar-nav-btn:hover, .sidebar-nav-btn.active { background: var(--accent-color); }
-        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1999; }
-        .sidebar-overlay.show { display: block; }
-
-        .tab-content { display: none; max-width: 800px; margin: 15px auto 0 auto; }
-        .tab-content.active { display: block; }
-
-        .panel { background: var(--card-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; border-top: 4px solid var(--primary-color); }
-        .panel.panel-item { border-top: 4px solid var(--item-color); }
-        .panel.panel-draw { border-top: 4px solid var(--draw-color); }
-        .panel.panel-history { border-top: 4px solid var(--history-color); }
-        .panel.panel-catalog { border-top: 4px solid var(--catalog-color); }
-
-        .panel h2 { margin-bottom: 15px; color: var(--primary-color); font-size: 1.2rem; }
-        .panel.panel-item h2 { color: var(--item-color); }
-        .panel.panel-draw h2 { color: var(--draw-color); }
-        .panel.panel-history h2 { color: var(--history-color); }
-        .panel.panel-catalog h2 { color: var(--catalog-color); }
-
-        .toggle-btn { background-color: var(--card-bg); color: var(--item-color); padding: 15px 20px; border: none; border-bottom: 1px solid #eee; width: 100%; text-align: left; font-size: 1.1rem; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .toggle-content { display: none; padding: 20px; }
 
         .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.85rem; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-        button.btn-primary { width: 100%; padding: 12px; background-color: var(--accent-color); color: white; border: none; border-radius: 4px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        button.btn-primary {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        
         button.btn-item { background-color: var(--item-color); }
-        button.btn-history { background-color: var(--history-color); }
-        button.btn-view-budget { background-color: var(--view-color); color: white; margin-top: 10px; }
 
-        .backup-box { background: #ebf5fb; border: 1px dashed #3498db; padding: 12px; border-radius: 6px; margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
-        .btn-backup { background: #3498db; color: white; padding: 8px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; text-align: center; font-size: 0.85rem; }
+        .btn-whatsapp {
+            background-color: var(--whatsapp-color);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px rgba(37, 211, 102, 0.3);
+        }
 
-        .inventory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .mdf-card { background: var(--card-bg); border-radius: 8px; overflow: hidden; box-shadow: 0 3px 5px rgba(0,0,0,0.1); border-left: 5px solid var(--accent-color); }
+        .backup-box {
+            background: #ebf5fb;
+            border: 1px dashed #3498db;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-backup {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .mdf-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent-color);
+        }
+        
         .item-card { border-left: 5px solid var(--item-color); }
 
-        .mdf-preview-container { background: #bdc3c7; height: 140px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-        .mdf-img-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; top: 0; left: 0; z-index: 1; }
-        .item-preview-container { background: #f4ecf7; height: 80px; display: flex; align-items: center; justify-content: center; color: var(--item-color); font-size: 2rem; }
+        .mdf-preview-container {
+            background: #e0e0e0;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mdf-img-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .item-preview-container {
+            background: #f4ecf7;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--item-color);
+            font-size: 2rem;
+        }
 
-        .mdf-visual-plate { display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; text-shadow: 1px 1px 4px rgba(0,0,0,0.9); font-size: 0.85rem; z-index: 2; padding: 6px 12px; background: rgba(0, 0, 0, 0.4); border-radius: 4px; }
+        .mdf-visual-plate {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            font-size: 0.75rem;
+            z-index: 2;
+            padding: 5px 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
         .mdf-info { padding: 12px; background: var(--card-bg); position: relative; z-index: 3; }
         .mdf-title { font-size: 1.1rem; font-weight: bold; color: var(--primary-color); }
         .mdf-price-tag { background: #e8f8f5; color: #117a65; padding: 4px 8px; border-radius: 4px; font-weight: bold; display: inline-block; margin: 5px 0; }
         .mdf-details { font-size: 0.85rem; color: #666; line-height: 1.4; margin-bottom: 10px; }
         .btn-delete { background: #e74c3c; color: white; padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; font-size: 0.8rem; }
-        .btn-view { background: var(--history-color); color: white; padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; font-size: 0.8rem; margin-right: 5px; }
 
         .table-responsive { width: 100%; overflow-x: auto; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         table { width: 100%; border-collapse: collapse; min-width: 500px; }
@@ -263,30 +335,15 @@
         .resumo-linha { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; color: #555; }
         .resumo-total { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 2px solid #ddd; font-size: 1.2rem; font-weight: bold; color: var(--success-color); }
         .section-title { margin-bottom: 10px; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 8px; }
-        
         .draw-card { background: var(--card-bg); padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; border-top: 4px solid var(--draw-color); }
-        .history-card { background: var(--card-bg); padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.08); margin-bottom: 12px; border-left: 5px solid var(--history-color); display: flex; justify-content: space-between; align-items: center; }
-        .history-details h4 { color: var(--primary-color); margin-bottom: 4px; }
-        .history-details p { font-size: 0.85rem; color: #666; }
-
-        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-        .catalog-item { background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; border-bottom: 3px solid var(--catalog-color); }
-        .catalog-img-container { width: 100%; height: 150px; background: #e0e0e0; position: relative; }
-        .catalog-img { width: 100%; height: 100%; object-fit: cover; }
-        .catalog-name { padding: 10px; font-weight: bold; color: var(--primary-color); font-size: 0.95rem; }
-
-        .modal-budget { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center; }
-        .modal-budget-box { background: white; width: 90%; max-width: 500px; border-radius: 8px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .modal-budget-box textarea { width: 100%; height: 250px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace; font-size: 0.9rem; resize: none; background: #fdfefe; margin-top: 10px; }
-        .modal-budget-buttons { display: flex; gap: 10px; margin-top: 15px; }
     </style>
 </head>
 <body>
     <div id="pwa-install-banner">
         <span><i class="fa-solid fa-mobile-screen-button"></i> Deseja instalar o aplicativo no celular?</span>
         <div>
-            <button class="btn-banner-install" onclick="instalarPWA()">Instalar</button>
-            <button class="btn-banner-close" onclick="fecharBannerPWA()">Usar no Navegador</button>
+            <button class="btn-banner-install" onclick="instalarPWA()">Instalar App</button>
+            <button class="btn-banner-close" onclick="fecharBannerPWA()">Navegador</button>
         </div>
     </div>
 
@@ -299,31 +356,99 @@
         </div>
     </div>
 
-    <div id="modalVisualizar" class="modal-budget">
-        <div class="modal-budget-box">
-            <h3 style="color: var(--primary-color);"><i class="fa-solid fa-eye"></i> Orçamento Prévio (Vista do Cliente)</h3>
-            <p style="font-size: 0.8rem; color: #7f8c8d;">Texto para envio.</p>
-            <textarea id="textoPreviewOrçamento" readonly></textarea>
-            <div class="modal-budget-buttons">
-                <button class="btn-primary" style="background:#7f8c8d; margin:0;" onclick="fecharModalOrçamento()">Fechar</button>
-                <button class="btn-primary" style="background:#25D366; margin:0; flex:1;" onclick="confirmarEEnviarWhatsapp()"><i class="fa-brands fa-whatsapp"></i> Confirmar e Enviar</button>
-            </div>
-        </div>
+    <header>
+        <h1><i class="fa-solid fa-couch"></i>Marcenaria Mobile</h1>
+    </header>
+
+    <div class="tabs-nav">
+        <button id="btn-cadastro" class="tab-btn active" onclick="switchTab('cadastroTab')"><i class="fa-solid fa-square-plus"></i>Cadastros</button>
+        <button id="btn-stock" class="tab-btn" onclick="switchTab('stockTab')"><i class="fa-solid fa-layer-group"></i>Stock</button>
+        <button id="btn-projeto" class="tab-btn" onclick="switchTab('projetoTab')"><i class="fa-solid fa-clipboard-list"></i>Projeto</button>
+        <button id="btn-visualizador" class="tab-btn" onclick="switchTab('visualizadorTab')"><i class="fa-solid fa-pen-ruler"></i>Desenho</button>
     </div>
 
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar" id="sidebarMenu">
-        <div class="sidebar-header">
-            <h3><i class="fa-solid fa-bars"></i> Menu Principal</h3>
-            <button class="btn-close-sidebar" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
+    <div id="cadastroTab" class="tab-content active">
+        <div class="panel">
+            <h2><i class="fa-solid fa-square-plus"></i> Cadastrar Chapa MDF</h2>
+            <form id="mdfForm">
+                <div class="form-group">
+                    <label>Nome do MDF</label>
+                    <input type="text" id="nomeMdf" placeholder="Ex: Guararapes Freijó" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Comp. (cm)</label>
+                        <input type="number" id="compMdf" value="275" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Larg. (cm)</label>
+                        <input type="number" id="largMdf" value="184" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Espessura (mm)</label>
+                        <select id="espessuraMdf">
+                            <option value="6">6 mm</option>
+                            <option value="15" selected>15 mm</option>
+                            <option value="18">18 mm</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Preço da Chapa (R$)</label>
+                        <input type="number" id="valorMdf" step="0.01" placeholder="R$ 250.00" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Cor Visual</label>
+                        <select id="corMdf">
+                            <option value="#d2a679">Madeira Claro</option>
+                            <option value="#5c3a21">Madeira Escuro</option>
+                            <option value="#ffffff">Branco</option>
+                            <option value="#7f8c8d">Cinza Grafite</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Veio</label>
+                        <select id="veioMdf">
+                            <option value="horizontal">Horizontal</option>
+                            <option value="vertical">Vertical</option>
+                            <option value="sem">Sem Veio</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Salvar Chapa</button>
+            </form>
         </div>
-        <button id="side-btn-cadastro" class="sidebar-nav-btn" onclick="switchTab('cadastroTab')"><i class="fa-solid fa-square-plus"></i> Cadastros</button>
-        <button id="side-btn-stock" class="sidebar-nav-btn" onclick="switchTab('stockTab')"><i class="fa-solid fa-layer-group"></i> Estoque (Stock)</button>
-        <button id="side-btn-catalog" class="sidebar-nav-btn" onclick="switchTab('catalogTab')"><i class="fa-solid fa-images"></i> Catálogo de Cores</button>
-        <button id="side-btn-historico" class="sidebar-nav-btn" onclick="switchTab('historicoTab')"><i class="fa-solid fa-folder-open"></i> Histórico</button>
+
+        <div class="panel panel-item">
+            <h2><i class="fa-solid fa-screwdriver-wrench"></i> Cadastrar Acessório</h2>
+            <form id="itemForm">
+                <div class="form-group">
+                    <label>Nome do Item</label>
+                    <input type="text" id="nomeItem" placeholder="Ex: Puxador Cava..." required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Preço Unitário (R$)</label>
+                        <input type="number" id="valorItem" step="0.01" placeholder="R$ 15.50" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Unidade</label>
+                        <select id="unidadeItem">
+                            <option value="Unidade">Unidade (pç)</option>
+                            <option value="Metro">Metro (m)</option>
+                            <option value="Par">Par</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary btn-item">Salvar Acessório</button>
+            </form>
+        </div>
 
         <div class="backup-box">
-            <h4 style="color:#2980b9;"><i class="fa-solid fa-cloud-arrow-down"></i> Backup</h4>
+            <h4 style="color:#2980b9;"><i class="fa-solid fa-cloud-arrow-down"></i> Backup de Dados</h4>
             <button class="btn-backup" onclick="exportarDados()"><i class="fa-solid fa-download"></i> Baixar Arquivo</button>
             <label class="btn-backup" style="background:#27ae60; display:block; padding:10px; text-align:center; color:white; cursor:pointer;">
                 <i class="fa-solid fa-upload"></i> Carregar Arquivo
@@ -332,23 +457,18 @@
         </div>
     </div>
 
-    <div class="header-sticky-container">
-        <header>
-            <div class="menu-hamburger" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></div>
-            <h1><i class="fa-solid fa-couch"></i>Marcenaria Mobile</h1>
-        </header>
-        <div class="tabs-nav">
-            <button id="btn-projeto" class="tab-btn active" onclick="switchTab('projetoTab')"><i class="fa-solid fa-clipboard-list"></i>Projeto</button>
-            <button id="btn-visualizador" class="tab-btn" onclick="switchTab('visualizadorTab')"><i class="fa-solid fa-pen-ruler"></i>Desenho</button>
-        </div>
+    <div id="stockTab" class="tab-content">
+        <h3 class="section-title"><i class="fa-solid fa-layer-group"></i> Chapas de MDF</h3>
+        <div class="inventory-grid" id="gridMdf"></div>
+        <h3 class="section-title"><i class="fa-solid fa-toolbox"></i> Ferragens e Acessórios</h3>
+        <div class="inventory-grid" id="gridItens"></div>
     </div>
 
-    <div id="projetoTab" class="tab-content active">
+    <div id="projetoTab" class="tab-content">
         <div class="panel">
             <h2><i class="fa-solid fa-user"></i> Dados do Projeto</h2>
             <div class="form-group"><label>Nome do Cliente</label><input type="text" id="nomeCliente" placeholder="Ex: João Silva"></div>
             <div class="form-group"><label>Número do Projeto</label><input type="text" id="numProjeto" placeholder="Ex: 001/2026"></div>
-            <button class="btn-primary btn-history" onclick="salvarProjetoNoHistorico()"><i class="fa-solid fa-floppy-disk"></i> Salvar Projeto no Histórico</button>
         </div>
 
         <div class="panel">
@@ -381,83 +501,37 @@
         <div class="table-responsive">
             <h2><i class="fa-solid fa-list-check"></i> Lista do Projeto</h2>
             <table>
-                <thead><tr><th>Descrição</th><th>Material/Medida</th><th>Qtd</th><th>Valor Raw</th><th>Ação</th></tr></thead>
+                <thead><tr><th>Descrição</th><th>Material/Medida</th><th>Qtd</th><th>Valor</th><th>Ação</th></tr></thead>
                 <tbody id="tabelaProjetoBody"></tbody>
             </table>
             <div class="resumo-financeiro">
                 <div class="form-group">
                     <label for="taxaMaoObra"><i class="fa-solid fa-percent"></i> Taxa de Mão de Obra</label>
-                    <select id="taxaMaoObra" onchange="salvarEAtualizarProjeto()">
+                    <select id="taxaMaoObra" onchange="renderProjeto()">
                         <option value="0">Sem mão de obra (0%)</option><option value="20">20%</option><option value="30">30%</option><option value="40">40%</option><option value="50">50%</option><option value="60">60%</option><option value="70">70%</option><option value="80">80%</option><option value="90">90%</option><option value="100">100%</option>
                     </select>
                 </div>
                 <div class="resumo-linha"><span>Custo dos Materiais:</span><strong id="resumoMaterial">R$ 0,00</strong></div>
-                <div class="resumo-linha" style="color: #c0392b;"><span>Sua Mão de Obra:</span><strong id="resumoMaoObra">R$ 0,00</strong></div>
-                <div class="resumo-total"><span>VALOR TOTAL GERAL:</span><span id="resumoTotalGeral">R$ 0,00</span></div>
-                <button class="btn-primary btn-view-budget" onclick="abrirModalOrçamento()"><i class="fa-solid fa-eye"></i> Visualizar Orçamento</button>
+                <div class="resumo-linha"><span>Mão de Obra:</span><strong id="resumoMaoObra">R$ 0,00</strong></div>
+                <div class="resumo-total"><span>VALOR TOTAL:</span><span id="resumoTotalGeral">R$ 0,00</span></div>
+                <button class="btn-whatsapp" onclick="enviarParaWhatsapp()"><i class="fa-brands fa-whatsapp"></i> Enviar Orçamento por WhatsApp</button>
             </div>
         </div>
     </div>
 
-    <div id="cadastroTab" class="tab-content">
-        <div class="panel">
-            <h2><i class="fa-solid fa-square-plus"></i> Cadastrar Chapa MDF</h2>
-            <form id="mdfForm">
-                <div class="form-group"><label>Nome do MDF</label><input type="text" id="nomeMdf" placeholder="Ex: Freijó Padrão" required></div>
-                <div class="form-row">
-                    <div class="form-group"><label>Comp. (cm)</label><input type="number" id="compMdf" value="275" required></div>
-                    <div class="form-group"><label>Larg. (cm)</label><input type="number" id="largMdf" value="184" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Espessura (mm)</label>
-                        <select id="espessuraMdf"><option value="6">6 mm</option><option value="15" selected>15 mm</option><option value="18">18 mm</option></select>
-                    </div>
-                    <div class="form-group"><label>Preço da Chapa (R$)</label><input type="number" id="valorMdf" step="0.01" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Nome de Referência da Cor</label><input type="text" id="corMdf" required></div>
-                    <div class="form-group"><label>Veio</label><select id="veioMdf"><option value="horizontal">Horizontal</option><option value="vertical">Vertical</option><option value="sem">Sem Veio</option></select></div>
-                </div>
-                <div class="form-group" style="background: #fdf2e9; padding: 12px; border-radius: 6px; border: 1px solid #f5cba7;">
-                    <label style="color:#d35400;"><i class="fa-solid fa-image"></i> Selecionar Foto da Cor</label>
-                    <input type="file" id="fotoArquivoMdf" accept="image/*">
-                </div>
-                <button type="submit" class="btn-primary" style="margin-top:15px;">Salvar Chapa</button>
-            </form>
+    <div id="visualizadorTab" class="tab-content">
+        <div class="panel panel-draw" style="margin-bottom: 10px;">
+            <h2><i class="fa-solid fa-pen-ruler"></i> Desenhos das Peças</h2>
         </div>
-
-        <div class="panel panel-item">
-            <h2><i class="fa-solid fa-screwdriver-wrench"></i> Cadastrar Acessório</h2>
-            <form id="itemForm">
-                <div class="form-group"><label>Nome do Item</label><input type="text" id="nomeItem" required></div>
-                <div class="form-row">
-                    <div class="form-group"><label>Preço Unitário (R$)</label><input type="number" id="valorItem" step="0.01" required></div>
-                    <div class="form-group"><label>Unidade</label><select id="unidadeItem"><option value="Unidade">Unidade (pç)</option><option value="Metro">Metro (m)</option><option value="Par">Par</option></select></div>
-                </div>
-                <button type="submit" class="btn-primary btn-item">Salvar Acessório</button>
-            </form>
-        </div>
+        <div id="drawingBoardContainer" style="display: flex; flex-direction: column; gap: 15px;"></div>
     </div>
-
-    <div id="stockTab" class="tab-content">
-        <h3 class="section-title"><i class="fa-solid fa-layer-group"></i> Chapas de MDF</h3><div class="inventory-grid" id="gridMdf"></div>
-        <h3 class="section-title"><i class="fa-solid fa-toolbox"></i> Ferragens e Acessórios</h3><div class="inventory-grid" id="gridItens"></div>
-    </div>
-
-    <div id="catalogTab" class="tab-content"><div class="panel panel-catalog"><h2><i class="fa-solid fa-images"></i> Catálogo de Cores</h2><div class="catalog-grid" id="catalogoCoresContainer"></div></div></div>
-
-    <div id="visualizadorTab" class="tab-content"><div class="panel panel-draw"><h2><i class="fa-solid fa-pen-ruler"></i> Desenhos das Peças</h2></div><div id="drawingBoardContainer" style="display: flex; flex-direction: column; gap: 15px;"></div></div>
-
-    <div id="historicoTab" class="tab-content"><div class="panel panel-history"><h2><i class="fa-solid fa-folder-open"></i> Histórico</h2><div id="listaHistoricoContainer"></div></div></div>
 
     <script>
-        // LÓGICA DO INSTALADOR PWA (APLICATIVO)
+        // --- GERENCIADOR DE INSTALAÇÃO PWA REAL ---
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            // Mostra o banner apenas se puder ser instalado
             document.getElementById('pwa-install-banner').style.display = 'flex';
         });
 
@@ -466,7 +540,7 @@
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
-                        console.log('Usuário aceitou a instalação');
+                        console.log('Usuário aceitou a instalação.');
                     }
                     deferredPrompt = null;
                     fecharBannerPWA();
@@ -478,74 +552,83 @@
             document.getElementById('pwa-install-banner').style.display = 'none';
         }
 
-        // Registrar o Service Worker para permitir funcionamento do App
+        // Registro do Service Worker forçando o escopo relativo correto do GitHub Pages
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker registrado!', reg))
-                    .catch(err => console.log('Erro ao registrar Service Worker', err));
+                navigator.serviceWorker.register('./sw.js', { scope: './' })
+                    .then(reg => console.log('Service Worker ativo na subpasta: ', reg.scope))
+                    .catch(err => console.log('Erro de registro no SW:', err));
             });
         }
 
-        // SCRIPT PADRÃO DO APP
-        function toggleSidebar() { document.getElementById('sidebarMenu').classList.toggle('open'); document.getElementById('sidebarOverlay').classList.toggle('show'); }
-        function verificarLogin() { if (document.getElementById('user-input').value === "admin" && document.getElementById('pass-input').value === "1234") { document.getElementById('login-screen').style.display = 'none'; sessionStorage.setItem('logado', 'true'); } else { alert("Incorreto!"); } }
+        // --- SISTEMA INTERNO DO APLICATIVO ---
+        function verificarLogin() {
+            if (document.getElementById('user-input').value === "admin" && document.getElementById('pass-input').value === "1234") {
+                document.getElementById('login-screen').style.display = 'none';
+                sessionStorage.setItem('logado', 'true');
+            } else { alert("Usuário ou senha incorretos!"); }
+        }
 
-        const imgPadrao = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%237f8c8d'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='8'>Sem Foto</text></svg>";
-        let estoqueMdf = JSON.parse(localStorage.getItem('estoqueMdf')) || [];
-        let estoqueItens = JSON.parse(localStorage.getItem('estoqueItens')) || [];
-        let listaProjeto = JSON.parse(localStorage.getItem('listaProjeto')) || [];
-        let historicoProjetos = JSON.parse(localStorage.getItem('historicoProjetos')) || [];
+        window.onload = function() {
+            if(sessionStorage.getItem('logado') === 'true') document.getElementById('login-screen').style.display = 'none';
+            renderEstoques(); renderProjeto();
+        };
 
-        window.onload = function() { if(sessionStorage.getItem('logado') === 'true') document.getElementById('login-screen').style.display = 'none'; renderEstoques(); renderProjeto(); renderHistorico(); renderCatalogoCores(); };
-        function salvarGeralNoNavegador() { localStorage.setItem('estoqueMdf', JSON.stringify(estoqueMdf)); localStorage.setItem('estoqueItens', JSON.stringify(estoqueItens)); localStorage.setItem('listaProjeto', JSON.stringify(listaProjeto)); localStorage.setItem('historicoProjetos', JSON.stringify(historicoProjetos)); }
-        function toggleAcessorio() { const p = document.getElementById('formAcessorioContent'); p.style.display = p.style.display === "block" ? "none" : "block"; }
+        let estoqueMdf = [
+            { id: 1, nome: "Freijó Padrão", comprimento: 275, largura: 184, espessura: 15, valor: 320.00, cor: "#d2a679", veio: "horizontal" },
+            { id: 2, nome: "Branco Texturizado", comprimento: 275, largura: 184, espessura: 18, valor: 210.00, cor: "#ffffff", veio: "sem" }
+        ];
+        let estoqueItens = [
+            { id: 101, nome: "Puxador Cava Alumínio", valor: 35.00, unidade: "Metro" },
+            { id: 102, nome: "Dobradiça com Amortecedor", valor: 8.50, unidade: "Unidade" }
+        ];
+        let listaProjeto = [];
+
+        function toggleAcessorio() {
+            const painel = document.getElementById('formAcessorioContent');
+            painel.style.display = painel.style.display === "block" ? "none" : "block";
+        }
 
         function switchTab(tabId) {
-            toggleSidebar();
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
+            if (tabId === 'cadastroTab') document.getElementById('btn-cadastro').classList.add('active');
+            if (tabId === 'stockTab') document.getElementById('btn-stock').classList.add('active');
             if (tabId === 'projetoTab') document.getElementById('btn-projeto').classList.add('active');
             if (tabId === 'visualizadorTab') { document.getElementById('btn-visualizador').classList.add('active'); renderizarDesenhos(); }
-            if (tabId === 'catalogTab') renderCatalogoCores();
-            if (tabId === 'historicoTab') renderHistorico();
-            atualizarSelects();
+            if(tabId === 'projetoTab' || tabId === 'cadastroTab') atualizarSelects();
         }
 
         function atualizarSelects() {
             const sm = document.getElementById('selectChapaProjeto'); if(sm) { sm.innerHTML = ''; estoqueMdf.forEach(c => sm.innerHTML += `<option value="${c.id}">${c.nome} - R$ ${c.valor.toFixed(2)}</option>`); }
-            const si = document.getElementById('selectItemProjeto'); if(si) { si.innerHTML = ''; estoqueItens.forEach(i => si.innerHTML += `<option value="${i.id}">${i.nome}</option>`); }
+            const si = document.getElementById('selectItemProjeto'); if(si) { si.innerHTML = ''; estoqueItens.forEach(i => si.innerHTML += `<option value="${i.id}">${i.nome} - R$ ${i.valor.toFixed(2)}</option>`); }
         }
 
         function renderEstoques() {
             const gm = document.getElementById('gridMdf'); gm.innerHTML = '';
             estoqueMdf.forEach(chapa => {
-                gm.innerHTML += `<div class="mdf-card"><div class="mdf-preview-container"><img src="${chapa.imagemBase64 || imgPadrao}" class="mdf-img-bg"></div><div class="mdf-info"><div class="mdf-title">${chapa.nome}</div><div class="mdf-price-tag">R$ ${chapa.valor.toFixed(2)}</div><button class="btn-delete" onclick="removerDoEstoque('mdf', ${chapa.id})">Remover</button></div></div>`;
+                let bg = `background-color: ${chapa.cor};`;
+                gm.innerHTML += `<div class="mdf-card"><div class="mdf-preview-container" style="${bg} color:${chapa.cor==='#ffffff'?'#333':'white'}">${chapa.comprimento}x${chapa.largura}cm</div><div class="mdf-info"><div class="mdf-title">${chapa.nome}</div><div class="mdf-price-tag">R$ ${chapa.valor.toFixed(2)}</div><button class="btn-delete" onclick="removerDoEstoque('mdf', ${chapa.id})">Remover</button></div></div>`;
             });
             const gi = document.getElementById('gridItens'); gi.innerHTML = '';
             estoqueItens.forEach(item => {
-                gi.innerHTML += `<div class="mdf-card item-card"><div class="item-preview-container"><i class="fa-solid fa-screwdriver-wrench"></i></div><div class="mdf-info"><div class="mdf-title">${item.nome}</div><button class="btn-delete" onclick="removerDoEstoque('item', ${item.id})">Remover</button></div></div>`;
+                gi.innerHTML += `<div class="mdf-card item-card"><div class="item-preview-container"><i class="fa-solid fa-screwdriver-wrench"></i></div><div class="mdf-info"><div class="mdf-title">${item.nome}</div><div class="mdf-price-tag">R$ ${item.valor.toFixed(2)}</div><button class="btn-delete" onclick="removerDoEstoque('item', ${item.id})">Remover</button></div></div>`;
             });
             atualizarSelects();
         }
 
-        function renderCatalogoCores() {
-            const c = document.getElementById('catalogoCoresContainer'); c.innerHTML = '';
-            estoqueMdf.forEach(chapa => { c.innerHTML += `<div class="catalog-item"><div class="catalog-img-container"><img src="${chapa.imagemBase64 || imgPadrao}" class="catalog-img"></div><div class="catalog-name">${chapa.cor.toUpperCase()}</div></div>`; });
-        }
-
         function renderProjeto() {
-            const tbody = document.getElementById('tabelaProjetoBody'); tbody.innerHTML = ''; let cm = 0;
-            if(listaProjeto.length === 0) { tbody.innerHTML = '<tr><td colspan="5">Nenhum item.</td></tr>'; atualizarResumo(0); return; }
+            const tbody = document.getElementById('tabelaProjetoBody'); tbody.innerHTML = ''; let custoMaterial = 0;
+            if(listaProjeto.length === 0) { tbody.innerHTML = `<tr><td colspan="5">Nenhum item.</td></tr>`; atualizarResumo(0); return; }
             listaProjeto.forEach((req, index) => {
                 let v = 0; let desc = req.nome;
-                if(req.tipo === 'corte') { const r = estoqueMdf.find(c => c.id == req.idRef); if(r) { v = r.valor * ((req.comp * req.larg)/(r.comprimento * r.largura)) * req.qtd; desc = `Corte: ${req.nome}`; } }
-                else { const r = estoqueItens.find(i => i.id == req.idRef); if(r) { v = r.valor * req.qtd; desc = r.nome; } }
-                cm += v;
+                if (req.tipo === 'corte') { const ref = estoqueMdf.find(c => c.id == req.idRef); if(ref) v = ref.valor * ((req.comp * req.larg) / (ref.comprimento * ref.largura)) * req.qtd; desc = `${req.nome} (Corte)`; }
+                else { const ref = estoqueItens.find(i => i.id == req.idRef); if(ref) v = ref.valor * req.qtd; desc = `${ref?.nome} (Acessório)`; }
+                custoMaterial += v;
                 tbody.innerHTML += `<tr><td>${desc}</td><td>${req.comp || '-'}x${req.larg || '-'}</td><td>${req.qtd}</td><td>R$ ${v.toFixed(2)}</td><td><button class="btn-delete" onclick="removerDoProjeto(${index})">X</button></td></tr>`;
             });
-            atualizarResumo(cm);
+            atualizarResrumo(custoMaterial);
         }
 
         function atualizarResumo(cm) {
@@ -555,50 +638,28 @@
             document.getElementById('resumoTotalGeral').innerText = `R$ ${tg.toFixed(2)}`;
         }
 
-        function salvarEAtualizarProjeto() { renderProjeto(); salvarGeralNoNavegador(); }
-        function salvarProjetoNoHistorico() { if(listaProjeto.length===0)return; historicoProjetos.push({ id: Date.now(), cliente: document.getElementById('nomeCliente').value || "MDF Cliente", data: new Date().toLocaleDateString(), itens: JSON.parse(JSON.stringify(listaProjeto)), taxaMaoObra: document.getElementById('taxaMaoObra').value }); salvarGeralNoNavegador(); alert("Histórico Salvo!"); renderHistorico(); }
-
-        function renderHistorico() {
-            const c = document.getElementById('listaHistoricoContainer'); c.innerHTML = '';
-            historicoProjetos.forEach(p => { c.innerHTML += `<div class="history-card"><div><h4>${p.cliente}</h4><p>${p.data}</p></div><button class="btn-delete" onclick="excluirDoHistorico(${p.id})">X</button></div>`; });
+        function enviarParaWhatsapp() {
+            let texto = "*ORÇAMENTO DE MARCENARIA*\n\n";
+            listaProjeto.forEach(r => texto += `• ${r.qtd}x ${r.nome}\n`);
+            texto += `\n*TOTAL:* ${document.getElementById('resumoTotalGeral').innerText}`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
         }
-        function excluirDoHistorico(id) { historicoProjetos = historicoProjetos.filter(p => p.id !== id); salvarGeralNoNavegador(); renderHistorico(); }
-
-        function abrirModalOrçamento() {
-            let txt = "*ORÇAMENTO MARCENARIA*\n\n";
-            listaProjeto.forEach(r => txt += `• Qtd: ${r.qtd} - ${r.nome || 'Item'}\n`);
-            txt += `\n*Total Geral:* ${document.getElementById('resumoTotalGeral').innerText}`;
-            document.getElementById('textoPreviewOrçamento').value = txt;
-            document.getElementById('modalVisualizar').style.display = 'flex';
-        }
-        function fecharModalOrçamento() { document.getElementById('modalVisualizar').style.display = 'none'; }
-        function confirmarEEnviarWhatsapp() { window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(document.getElementById('textoPreviewOrçamento').value)}`, '_blank'); }
 
         function renderizarDesenhos() {
             const container = document.getElementById('drawingBoardContainer'); container.innerHTML = '';
             listaProjeto.filter(i => i.tipo === 'corte').forEach(corte => {
-                const ref = estoqueMdf.find(c => c.id == corte.idRef);
-                container.innerHTML += `<div class="draw-card"><h3>${corte.nome}</h3><div style="width:100px; height:100px; background:#ccc; margin:auto; border:1px solid #333; position:relative;"><img src="${ref?.imagemBase64 || imgPadrao}" style="width:100%; height:100%; object-fit:cover;"><span style="position:absolute; color:white; font-size:10px; background:rgba(0,0,0,0.5); top:0; left:0;">${corte.comp}x${corte.larg}</span></div></div>`;
+                container.innerHTML += `<div class="draw-card"><h3>${corte.nome}</h3><div style="width:120px; height:80px; background:#ccc; margin:auto; display:flex; align-items:center; justify-content:center; border:1px solid #333;">${corte.comp}x${corte.larg}</div></div>`;
             });
         }
 
-        document.getElementById('mdfForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const inputFoto = document.getElementById('fotoArquivoMdf');
-            const salvar = (base64) => {
-                estoqueMdf.push({ id: Date.now(), nome: document.getElementById('nomeMdf').value, comprimento: parseInt(document.getElementById('compMdf').value), largura: parseInt(document.getElementById('largMdf').value), espessura: document.getElementById('espessuraMdf').value, valor: parseFloat(document.getElementById('valorMdf').value), cor: document.getElementById('corMdf').value, imagemBase64: base64 });
-                salvarGeralNoNavegador(); renderEstoques(); document.getElementById('mdfForm').reset(); switchTab('stockTab');
-            };
-            if(inputFoto.files && inputFoto.files[0]) { const r = new FileReader(); r.onload = (ev) => salvar(ev.target.result); r.readAsDataURL(inputFoto.files[0]); } else { salvar(imgPadrao); }
-        });
-
-        document.getElementById('itemForm').addEventListener('submit', (e) => { e.preventDefault(); estoqueItens.push({ id: Date.now(), nome: document.getElementById('nomeItem').value, valor: parseFloat(document.getElementById('valorItem').value), unidade: document.getElementById('unidadeItem').value }); salvarGeralNoNavegador(); renderEstoques(); document.getElementById('itemForm').reset(); switchTab('stockTab'); });
-        document.getElementById('addCorteForm').addEventListener('submit', (e) => { e.preventDefault(); listaProjeto.push({ tipo: 'corte', idRef: document.getElementById('selectChapaProjeto').value, nome: document.getElementById('nomePecaCorte').value, comp: parseFloat(document.getElementById('compCorte').value), larg: parseFloat(document.getElementById('largCorte').value), qtd: parseInt(document.getElementById('qtdCorte').value) }); salvarEAtualizarProjeto(); });
-        document.getElementById('addAcessorioForm').addEventListener('submit', (e) => { e.preventDefault(); const ref = estoqueItens.find(i=>i.id==document.getElementById('selectItemProjeto').value); listaProjeto.push({ tipo: 'item', idRef: document.getElementById('selectItemProjeto').value, nome: ref?.nome, qtd: parseFloat(document.getElementById('qtdAcessorio').value) }); salvarEAtualizarProjeto(); toggleAcessorio(); });
-        function removerDoEstoque(tipo, id) { if(tipo==='mdf') estoqueMdf=estoqueMdf.filter(c=>c.id!==id); else estoqueItens=estoqueItens.filter(i=>i.id!==id); salvarGeralNoNavegador(); renderEstoques(); }
-        function removerDoProjeto(idx) { listaProjeto.splice(idx,1); salvarEAtualizarProjeto(); }
-        function exportarDados() { const d = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({estoqueMdf, estoqueItens, listaProjeto, historicoProjetos})); const a = document.createElement('a'); a.setAttribute("href", d); a.setAttribute("download", "backup.json"); a.click(); }
-        function importarDados(i) { const r = new FileReader(); r.onload = () => { const d = JSON.parse(r.result); if(d.estoqueMdf) estoqueMdf=d.estoqueMdf; if(d.estoqueItens) estoqueItens=d.estoqueItens; if(d.listaProjeto) listaProjeto=d.listaProjeto; if(d.historicoProjetos) historicoProjetos=d.historicoProjetos; salvarGeralNoNavegador(); renderEstoques(); renderProjeto(); }; r.readAsText(i.files[0]); }
+        document.getElementById('mdfForm').addEventListener('submit', (e) => { e.preventDefault(); estoqueMdf.push({ id: Date.now(), nome: document.getElementById('nomeMdf').value, comprimento: parseInt(document.getElementById('compMdf').value), largura: parseInt(document.getElementById('largMdf').value), espessura: parseInt(document.getElementById('espessuraMdf').value), valor: parseFloat(document.getElementById('valorMdf').value), cor: document.getElementById('corMdf').value, veio: document.getElementById('veioMdf').value }); renderEstoques(); switchTab('stockTab'); });
+        document.getElementById('itemForm').addEventListener('submit', (e) => { e.preventDefault(); estoqueItens.push({ id: Date.now(), nome: document.getElementById('nomeItem').value, valor: parseFloat(document.getElementById('valorItem').value), unidade: document.getElementById('unidadeItem').value }); renderEstoques(); switchTab('stockTab'); });
+        document.getElementById('addCorteForm').addEventListener('submit', (e) => { e.preventDefault(); listaProjeto.push({ tipo: 'corte', idRef: document.getElementById('selectChapaProjeto').value, nome: document.getElementById('nomePecaCorte').value, comp: parseFloat(document.getElementById('compCorte').value), larg: parseFloat(document.getElementById('largCorte').value), qtd: parseInt(document.getElementById('qtdCorte').value) }); renderProjeto(); });
+        document.getElementById('addAcessorioForm').addEventListener('submit', (e) => { e.preventDefault(); const ref = estoqueItens.find(i=>i.id==document.getElementById('selectItemProjeto').value); listaProjeto.push({ tipo: 'item', idRef: document.getElementById('selectItemProjeto').value, nome: ref?.nome, qtd: parseFloat(document.getElementById('qtdAcessorio').value) }); renderProjeto(); toggleAcessorio(); });
+        function removerDoEstoque(tipo, id) { if(tipo==='mdf') estoqueMdf=estoqueMdf.filter(c=>c.id!==id); else estoqueItens=estoqueItens.filter(i=>i.id!==id); renderEstoques(); renderProjeto(); }
+        function removerDoProjeto(index) { listaProjeto.splice(index, 1); renderProjeto(); }
+        function exportarDados() { const d = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({estoqueMdf, estoqueItens, listaProjeto})); const a = document.createElement('a'); a.setAttribute("href", d); a.setAttribute("download", "backup.json"); a.click(); }
+        function importarDados(i) { const r = new FileReader(); r.onload = () => { const data = JSON.parse(r.result); if(data.estoqueMdf) estoqueMdf=data.estoqueMdf; if(data.estoqueItens) estoqueItens=data.estoqueItens; renderEstoques(); }; r.readAsText(i.files[0]); }
     </script>
 </body>
 </html>
